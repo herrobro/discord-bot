@@ -23,7 +23,6 @@ new CommandKit({
   eventsPath: `${__dirname}/events`,
   commandsPath: `${__dirname}/commands`,
   bulkRegister: true,
-  validationsPath: `${__dirname}/validations`,
 });
 
 /*client.on("interactionCreate", async (interaction) => {
