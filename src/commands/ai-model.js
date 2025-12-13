@@ -2,12 +2,28 @@ const {
   SlashCommandBuilder,
   ApplicationCommandOptionType,
   MessageFlags,
+  SelectMenuOptionBuilder,
 } = require("discord.js");
 require("dotenv").config();
 
 const API_KEY = process.env.API_KEY;
 const SERVER_URL = process.env.SERVER_URL;
 const MODEL = process.env.MODEL;
+
+const activeModels = async () => {
+  const resp = await fetch(`${SERVER_URL}/api/models`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  let data = await resp.json();
+  let model_array = [];
+  data.data.forEach((model) => {
+    model_array.push(model.id);
+  });
+  return model_array;
+};
 
 let globalTime = 0;
 
@@ -17,6 +33,13 @@ module.exports = {
     .setName("ai-model-call")
     .setDescription(
       "Query Herro's Local AI (Has a default limit of once per 4 minutes)"
+    )
+    .addStringOption((option) =>
+      option
+        .setName("model")
+        .setDescription("The model to use")
+        .setRequired(true)
+        .setAutocomplete(true)
     )
     .addStringOption((option) =>
       option
@@ -40,7 +63,7 @@ module.exports = {
             Authorization: `Bearer ${API_KEY}`,
           },
           body: JSON.stringify({
-            model: MODEL,
+            model: model,
             messages: [
               {
                 role: "user",
@@ -66,7 +89,8 @@ module.exports = {
       }
     }
     const prompt = interaction.options.getString("prompt");
-    getAPIData(prompt).then((response) => {
+    const model = interaction.options.getString("model");
+    getAPIData(prompt, model).then((response) => {
       if (response) {
         interaction.editReply({
           content: response,
@@ -75,8 +99,33 @@ module.exports = {
       }
     });
   },
+  autocomplete: async ({ interaction, client, handler }) => {
+    const value = interaction.options.getFocused().toLowerCase();
+    const resp = await fetch(`${SERVER_URL}/api/models`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+    let data = await resp.json();
+    let choices = [];
+
+    data.data.forEach((model) => {
+      choices.push(model.id);
+    });
+
+    const filtered = choices
+      .filter((choice) => choice.toLowerCase().includes(value))
+      .slice(0, 25);
+
+    if (!interaction) return;
+
+    await interaction.respond(
+      filtered.map((choice) => ({ name: choice, value: choice }))
+    );
+  },
   options: {
-    //userPermission: ['Administrator'],
+    userPermission: ["Administrator"],
     //botPermission: ['Administrator'],
   },
 };
