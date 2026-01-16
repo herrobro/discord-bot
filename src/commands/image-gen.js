@@ -255,7 +255,7 @@ const declarePrompt = (posPrompt, negPrompt) => {
     do_not_save_samples: false,
     enable_hr: true,
     height: 1280,
-    hr_negative_prompt: `score_4, source_pony, (worst quality:1.2), (low quality:1.2), (normal quality:1.2), lowres, bad anatomy, bad hands, signature, watermarks, ugly, imperfect eyes, skewed eyes, unnatural face, unnatural body, error, extra limb, missing limbs, painting by bad-artist, long neck, muscular female, ? , simple background, hands in frame, hand, hat, crowd, light, wet body, wet skin, ${negPrompt}`,
+    hr_negative_prompt: `score_4, source_pony, (worst quality:1.2), (low quality:1.2), (normal quality:1.2), lowres, bad anatomy, bad hands, signature, watermarks, ugly, imperfect eyes, skewed eyes, unnatural face, unnatural body, error, extra limb, missing limbs, painting by bad-artist, long neck, muscular female, ? , simple background, hands in frame, hand, hat, crowd, light, wet body, wet s ${negPrompt}`,
     hr_prompt: `score_9, score_8_up, score_7_up, score_6_up, score_5_up, masterpiece, best quality, amazing quality, very aesthetic, absurdres, newest, detailed background, ${posPrompt}`,
     hr_resize_x: 0,
     hr_resize_y: 0,
@@ -299,6 +299,13 @@ module.exports = {
     .setDescription("Generate an Image from Stable Diffusion!")
     .addStringOption((option) =>
       option
+        .setName("style")
+        .setDescription("Style of generation, determines model")
+        .setRequired(true)
+        .setAutocomplete(true)
+    )
+    .addStringOption((option) =>
+      option
         .setName("positiveprompt")
         .setDescription("The positive prompt to use for the image.")
         .setRequired(true)
@@ -311,10 +318,47 @@ module.exports = {
     ),
   run: async ({ interaction, client, handler }) => {
     await interaction.deferReply();
+    const map = new Map()
+      .set("dnd", "dungeonsAndDiffusion_v3.safetensors [937f4a8401]")
+      .set("anime", "prefectiousXLNSFW_v10.safetensors [4286171e4b]");
     const positive = interaction.options.getString("positiveprompt");
     let negative = interaction.options.getString("negativeprompt");
+    let style = interaction.options.getString("style");
+    const getbyKey = (map, searchValue) => {
+      for (let [key, value] of map.entries()) {
+        if (key === searchValue) return value;
+      }
+    };
     if (!negative) {
       negative = "";
+    }
+    async function changeOpt(style) {
+      try {
+        const opt = await fetch(`${imageUrl}/sdapi/v1/options`, {
+          method: "GET",
+        });
+        const result = await opt.json();
+        console.log(`Current model: ${result.sd_model_checkpoint}`);
+        let setModel = getbyKey(map, style);
+        console.log(setModel);
+        if (setModel === result.sd_model_checkpoint) {
+          console.log("Model is already desired.");
+          return;
+        } else {
+          result.sd_model_checkpoint = setModel;
+          const option = await fetch(`${imageUrl}/sdapi/v1/options`, {
+            method: "POST",
+            body: JSON.stringify(result),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const optionJson = await option;
+          return optionJson;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
     async function imageGen(body) {
       const result = await fetch(`${imageUrl}/sdapi/v1/txt2img`, {
@@ -337,21 +381,50 @@ module.exports = {
     */
     }
     const payload = declarePrompt(positive, negative);
-    imageGen(payload).then((response) => {
-      try {
-        const buf = Buffer.from(response, "base64");
-        let date = Date.now();
-        const file = new AttachmentBuilder(buf, { name: date + ".png" });
+    changeOpt(style).then((res) => {
+      if (!res) {
         const embed = new EmbedBuilder()
-          .setTitle("GENERATED IMAGE")
-          .setColor(0x00ae86)
-          .setImage(`attachment://${date}.png`)
+          .setTitle("FAILED TO CHANGE MODEL")
+          .setColor("FF0000")
+          .setDescription("ERROR")
           .setFooter({ text: "Provided by Stable Diffusion" });
+      } else {
+        imageGen(payload).then((response) => {
+          try {
+            const buf = Buffer.from(response, "base64");
+            let date = Date.now();
+            const file = new AttachmentBuilder(buf, { name: date + ".png" });
+            const embed = new EmbedBuilder()
+              .setTitle("GENERATED IMAGE")
+              .setColor(0x00ae86)
+              .setImage(`attachment://${date}.png`)
+              .setFooter({ text: "Provided by Stable Diffusion" });
 
-        return interaction.editReply({ embeds: [embed], files: [file] });
-      } catch (error) {
-        console.log(error);
+            return interaction.editReply({ embeds: [embed], files: [file] });
+          } catch (error) {
+            console.log(error);
+          }
+        });
       }
     });
+  },
+  autocomplete: async ({ interaction, client, handler }) => {
+    const value = interaction.options.getFocused().toLowerCase();
+    try {
+      let keyArray = ["dnd", "anime"];
+      const filtered = keyArray
+        .filter((choice) => choice.toLowerCase().includes(value))
+        .slice(0, 25);
+      if (!interaction) return;
+
+      await interaction.respond(
+        filtered.map((choice) => ({ name: choice, value: choice }))
+      );
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
