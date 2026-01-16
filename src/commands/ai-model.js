@@ -32,7 +32,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("ai-model-call")
     .setDescription(
-      "Query Herro's Local AI (Has a default limit of once per 4 minutes)"
+      "Query Herro's Local AI (Has a default limit of once per minute)"
     )
     .addStringOption((option) =>
       option
@@ -48,13 +48,13 @@ module.exports = {
         .setRequired(true)
     ),
   run: async ({ interaction, client, handler }) => {
-    if (Date.now() - globalTime < 4 * 60 * 1000) {
+    if (Date.now() - globalTime < 1 * 60 * 1000) {
       interaction.reply("Please wait to use this command again!");
       return;
     }
     globalTime = Date.now();
     await interaction.deferReply();
-    async function getAPIData(prompt) {
+    async function getAPIData(prompt, model) {
       try {
         const response = await fetch(`${SERVER_URL}/api/chat/completions`, {
           method: "POST",
@@ -67,7 +67,7 @@ module.exports = {
             messages: [
               {
                 role: "user",
-                content: `${prompt}, keep this under 500 words maximum.`,
+                content: `${prompt}, keep this under 2000 characters at a MAXIMUM.`,
               },
             ],
             temperature: 0.4,
@@ -101,28 +101,36 @@ module.exports = {
   },
   autocomplete: async ({ interaction, client, handler }) => {
     const value = interaction.options.getFocused().toLowerCase();
-    const resp = await fetch(`${SERVER_URL}/api/models`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    });
-    let data = await resp.json();
-    let choices = [];
+    try {
+      const resp = await fetch(`${SERVER_URL}/api/models`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      });
+      console.log(resp);
+      let data = await resp.json();
+      let choices = [];
 
-    data.data.forEach((model) => {
-      choices.push(model.id);
-    });
+      data.data.forEach((model) => {
+        choices.push(model.id);
+      });
 
-    const filtered = choices
-      .filter((choice) => choice.toLowerCase().includes(value))
-      .slice(0, 25);
+      const filtered = choices
+        .filter((choice) => choice.toLowerCase().includes(value))
+        .slice(0, 25);
 
-    if (!interaction) return;
+      if (!interaction) return;
 
-    await interaction.respond(
-      filtered.map((choice) => ({ name: choice, value: choice }))
-    );
+      await interaction.respond(
+        filtered.map((choice) => ({ name: choice, value: choice }))
+      );
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
   options: {
     userPermission: ["Administrator"],

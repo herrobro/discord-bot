@@ -12,6 +12,17 @@
   "dependencies": {
     "commandkit": "^0.1.10",
     "discord.js": "^14.25.1",
-    "dotenv": "^17.2.3"
-  }
+    "dotenv": "^17.2.3",
+    "nodemon": "^3.1.11"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/herrobro/discord-bot.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/herrobro/discord-bot/issues"
+  },
+  "homepage": "https://github.com/herrobro/discord-bot#readme"
 }
