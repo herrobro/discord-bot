@@ -625,8 +625,7 @@ module.exports = {
         let setModel = getbyKey(map, style);
         console.log(setModel);
         if (setModel === result.sd_model_checkpoint) {
-          console.log("Model is already desired.");
-          return;
+          return "Model is already desired.";
         } else {
           result.sd_model_checkpoint = setModel;
           const option = await fetch(`${imageUrl}/sdapi/v1/options`, {
@@ -672,6 +671,7 @@ module.exports = {
           .setDescription("ERROR")
           .setFooter({ text: "Provided by Stable Diffusion" });
       } else {
+        console.log(res);
         imageGen(payload).then((response) => {
           try {
             const buf = Buffer.from(response, "base64");
