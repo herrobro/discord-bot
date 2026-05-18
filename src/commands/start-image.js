@@ -5,21 +5,26 @@ const {
   SelectMenuOptionBuilder,
   EmbedBuilder,
 } = require("discord.js");
+require("dotenv").config();
 
-function isObject(value) {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+const startUrl = process.env.START_URL;
+
+function isSuccess(value) {
+  if (value === 200) {
+    return true;
+  } else return false;
 }
 
 const imageGen = async () => {
   try {
-    const response = await fetch(
-      "https://n8n.homelabmanager.com/webhook/82b3ab7b-4d93-4d30-a66a-c8be8e95f6dc",
-      { method: "GET" }
-    );
+    const response = await fetch(`${startUrl}`, { method: "GET" });
     if (!response.ok) {
       throw new Error(`API Error: ${response.status}`);
     }
-    return await response.json();
+    console.log(response);
+    console.log(response.status);
+    const resp = response.status;
+    return await resp;
   } catch (error) {
     console.log(error);
     return error;
@@ -33,8 +38,7 @@ module.exports = {
   run: async ({ interaction, client, handler }) => {
     await interaction.deferReply();
     imageGen().then((response) => {
-      console.log(isObject(response));
-      let success = !isObject(response)
+      let success = isSuccess(response)
         ? "Image Generation Page Started!"
         : `${response}`;
       console.log(success);

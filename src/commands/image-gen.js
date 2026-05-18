@@ -291,7 +291,7 @@ const declarePrompt = (posPrompt, negPrompt, style) => {
       tiling: false,
       width: 720,
     };
-  } else {
+  } else if (style === "dnd") {
     payload = {
       alwayson_scripts: {
         ADetailer: {
@@ -572,6 +572,284 @@ const declarePrompt = (posPrompt, negPrompt, style) => {
       tiling: false,
       width: 512,
     };
+  } else {
+    payload = {
+      alwayson_scripts: {
+        ADetailer: {
+          args: [
+            false,
+            false,
+            {
+              ad_cfg_scale: 7,
+              ad_checkpoint: "Use same checkpoint",
+              ad_clip_skip: 1,
+              ad_confidence: 0.3,
+              ad_controlnet_guidance_end: 1,
+              ad_controlnet_guidance_start: 0,
+              ad_controlnet_model: "None",
+              ad_controlnet_module: "None",
+              ad_controlnet_weight: 1,
+              ad_denoising_strength: 0.4,
+              ad_dilate_erode: 4,
+              ad_inpaint_height: 512,
+              ad_inpaint_only_masked: true,
+              ad_inpaint_only_masked_padding: 32,
+              ad_inpaint_width: 512,
+              ad_mask_blur: 4,
+              ad_mask_filter_method: "Area",
+              ad_mask_k: 0,
+              ad_mask_max_ratio: 1,
+              ad_mask_merge_invert: "None",
+              ad_mask_min_ratio: 0,
+              ad_model: "face_yolov8n.pt",
+              ad_model_classes: "",
+              ad_negative_prompt: "",
+              ad_noise_multiplier: 1,
+              ad_prompt: "",
+              ad_restore_face: false,
+              ad_sampler: "DPM++ 2M",
+              ad_scheduler: "Use same scheduler",
+              ad_steps: 28,
+              ad_tab_enable: true,
+              ad_use_cfg_scale: false,
+              ad_use_checkpoint: false,
+              ad_use_clip_skip: false,
+              ad_use_inpaint_width_height: false,
+              ad_use_noise_multiplier: false,
+              ad_use_sampler: false,
+              ad_use_steps: false,
+              ad_use_vae: false,
+              ad_vae: "Use same VAE",
+              ad_x_offset: 0,
+              ad_y_offset: 0,
+              is_api: [],
+            },
+            {
+              ad_cfg_scale: 7,
+              ad_checkpoint: "Use same checkpoint",
+              ad_clip_skip: 1,
+              ad_confidence: 0.3,
+              ad_controlnet_guidance_end: 1,
+              ad_controlnet_guidance_start: 0,
+              ad_controlnet_model: "None",
+              ad_controlnet_module: "None",
+              ad_controlnet_weight: 1,
+              ad_denoising_strength: 0.4,
+              ad_dilate_erode: 4,
+              ad_inpaint_height: 512,
+              ad_inpaint_only_masked: true,
+              ad_inpaint_only_masked_padding: 32,
+              ad_inpaint_width: 512,
+              ad_mask_blur: 4,
+              ad_mask_filter_method: "Area",
+              ad_mask_k: 0,
+              ad_mask_max_ratio: 1,
+              ad_mask_merge_invert: "None",
+              ad_mask_min_ratio: 0,
+              ad_model: "None",
+              ad_model_classes: "",
+              ad_negative_prompt: "",
+              ad_noise_multiplier: 1,
+              ad_prompt: "",
+              ad_restore_face: false,
+              ad_sampler: "DPM++ 2M",
+              ad_scheduler: "Use same scheduler",
+              ad_steps: 28,
+              ad_tab_enable: true,
+              ad_use_cfg_scale: false,
+              ad_use_checkpoint: false,
+              ad_use_clip_skip: false,
+              ad_use_inpaint_width_height: false,
+              ad_use_noise_multiplier: false,
+              ad_use_sampler: false,
+              ad_use_steps: false,
+              ad_use_vae: false,
+              ad_vae: "Use same VAE",
+              ad_x_offset: 0,
+              ad_y_offset: 0,
+              is_api: [],
+            },
+            {
+              ad_cfg_scale: 7,
+              ad_checkpoint: "Use same checkpoint",
+              ad_clip_skip: 1,
+              ad_confidence: 0.3,
+              ad_controlnet_guidance_end: 1,
+              ad_controlnet_guidance_start: 0,
+              ad_controlnet_model: "None",
+              ad_controlnet_module: "None",
+              ad_controlnet_weight: 1,
+              ad_denoising_strength: 0.4,
+              ad_dilate_erode: 4,
+              ad_inpaint_height: 512,
+              ad_inpaint_only_masked: true,
+              ad_inpaint_only_masked_padding: 32,
+              ad_inpaint_width: 512,
+              ad_mask_blur: 4,
+              ad_mask_filter_method: "Area",
+              ad_mask_k: 0,
+              ad_mask_max_ratio: 1,
+              ad_mask_merge_invert: "None",
+              ad_mask_min_ratio: 0,
+              ad_model: "None",
+              ad_model_classes: "",
+              ad_negative_prompt: "",
+              ad_noise_multiplier: 1,
+              ad_prompt: "",
+              ad_restore_face: false,
+              ad_sampler: "DPM++ 2M",
+              ad_scheduler: "Use same scheduler",
+              ad_steps: 28,
+              ad_tab_enable: true,
+              ad_use_cfg_scale: false,
+              ad_use_checkpoint: false,
+              ad_use_clip_skip: false,
+              ad_use_inpaint_width_height: false,
+              ad_use_noise_multiplier: false,
+              ad_use_sampler: false,
+              ad_use_steps: false,
+              ad_use_vae: false,
+              ad_vae: "Use same VAE",
+              ad_x_offset: 0,
+              ad_y_offset: 0,
+              is_api: [],
+            },
+            {
+              ad_cfg_scale: 7,
+              ad_checkpoint: "Use same checkpoint",
+              ad_clip_skip: 1,
+              ad_confidence: 0.3,
+              ad_controlnet_guidance_end: 1,
+              ad_controlnet_guidance_start: 0,
+              ad_controlnet_model: "None",
+              ad_controlnet_module: "None",
+              ad_controlnet_weight: 1,
+              ad_denoising_strength: 0.4,
+              ad_dilate_erode: 4,
+              ad_inpaint_height: 512,
+              ad_inpaint_only_masked: true,
+              ad_inpaint_only_masked_padding: 32,
+              ad_inpaint_width: 512,
+              ad_mask_blur: 4,
+              ad_mask_filter_method: "Area",
+              ad_mask_k: 0,
+              ad_mask_max_ratio: 1,
+              ad_mask_merge_invert: "None",
+              ad_mask_min_ratio: 0,
+              ad_model: "None",
+              ad_model_classes: "",
+              ad_negative_prompt: "",
+              ad_noise_multiplier: 1,
+              ad_prompt: "",
+              ad_restore_face: false,
+              ad_sampler: "DPM++ 2M",
+              ad_scheduler: "Use same scheduler",
+              ad_steps: 28,
+              ad_tab_enable: true,
+              ad_use_cfg_scale: false,
+              ad_use_checkpoint: false,
+              ad_use_clip_skip: false,
+              ad_use_inpaint_width_height: false,
+              ad_use_noise_multiplier: false,
+              ad_use_sampler: false,
+              ad_use_steps: false,
+              ad_use_vae: false,
+              ad_vae: "Use same VAE",
+              ad_x_offset: 0,
+              ad_y_offset: 0,
+              is_api: [],
+            },
+          ],
+        },
+        "API payload": {
+          args: [],
+        },
+        Comments: {
+          args: [],
+        },
+        "Dynamic Prompts v2.17.1": {
+          args: [
+            true,
+            false,
+            1,
+            false,
+            false,
+            false,
+            1.1,
+            1.5,
+            100,
+            0.7,
+            false,
+            false,
+            true,
+            false,
+            false,
+            0,
+            "Gustavosta/MagicPrompt-Stable-Diffusion",
+            "",
+          ],
+        },
+        "Extra options": {
+          args: [],
+        },
+        Hypertile: {
+          args: [],
+        },
+        Refiner: {
+          args: [false, "", 0.8],
+        },
+        Sampler: {
+          args: [27, "DPM++ 2M", "Automatic"],
+        },
+        Seed: {
+          args: [-1, false, -1, 0, 0, 0],
+        },
+        "Simple wildcards": {
+          args: [],
+        },
+      },
+      batch_size: 1,
+      cfg_scale: 7,
+      comments: {},
+      denoising_strength: 0.65,
+      disable_extra_networks: false,
+      do_not_save_grid: false,
+      do_not_save_samples: false,
+      enable_hr: true,
+      height: 1024,
+      hr_negative_prompt: `blurry, low quality, low resolution, pixelated, noisy, grainy, jpeg artifacts, compression artifacts, watermark, signature, text errors, misspelled text, garbled text, illegible text, bad typography, distorted font, deformed letters, extra letters, missing letters, multiple logos, duplicate elements, busy background, gradient background, photographic background, realistic textures, photorealism, 3D render, depth of field, bokeh, shadows, drop shadows, lens flare, glow effects, overexposed, underexposed, dark, dull colors, muddy colors, asymmetrical, unbalanced, cluttered, messy, too detailed, overly complex, cartoon face, human face, portrait, people, hands, body parts, nsfw, bad composition, out of frame, cropped, border cut off, unfinished, draft, sketch lines, pencil lines, rough edges, white background bleed, smudged, smeared, watermark, text, detailed background, gradient background, ${negPrompt}`,
+      hr_prompt: `logo design, white background, vector design, logo, professional logo,`,
+      hr_resize_x: 0,
+      hr_resize_y: 0,
+      hr_scale: 1.5,
+      hr_second_pass_steps: 15,
+      hr_upscaler: "Latent",
+      n_iter: 1,
+      negative_prompt: `blurry, low quality, low resolution, pixelated, noisy, grainy, jpeg artifacts, compression artifacts, watermark, signature, text errors, misspelled text, garbled text, illegible text, bad typography, distorted font, deformed letters, extra letters, missing letters, multiple logos, duplicate elements, busy background, gradient background, photographic background, realistic textures, photorealism, 3D render, depth of field, bokeh, shadows, drop shadows, lens flare, glow effects, overexposed, underexposed, dark, dull colors, muddy colors, asymmetrical, unbalanced, cluttered, messy, too detailed, overly complex, cartoon face, human face, portrait, people, hands, body parts, nsfw, bad composition, out of frame, cropped, border cut off, unfinished, draft, sketch lines, pencil lines, rough edges, white background bleed, smudged, smeared, watermark, text, detailed background, gradient background, ${negPrompt}`,
+      override_settings: {},
+      override_settings_restore_afterwards: true,
+      prompt: `logo design, white background, vector design, logo, professional logo, ${posPrompt}`,
+      restore_faces: false,
+      s_churn: 0,
+      s_min_uncond: 0,
+      s_noise: 1,
+      s_tmax: null,
+      s_tmin: 0,
+      sampler_name: "DPM++ 2M",
+      scheduler: "Automatic",
+      script_args: [],
+      script_name: null,
+      seed: 1123819905,
+      seed_enable_extras: true,
+      seed_resize_from_h: -1,
+      seed_resize_from_w: -1,
+      steps: 27,
+      styles: [],
+      subseed: 3446000645,
+      subseed_strength: 0,
+      tiling: false,
+      width: 1024,
+    };
   }
   return payload;
 };
@@ -603,7 +881,8 @@ module.exports = {
     await interaction.deferReply();
     const map = new Map()
       .set("dnd", "dungeonsAndDiffusion_v10Real.safetensors [549ad13fda]")
-      .set("anime", "prefectiousXLNSFW_v10.safetensors [4286171e4b]");
+      .set("anime", "prefectiousXLNSFW_v10.safetensors [4286171e4b]")
+      .set("logo", "sdXL_v10VAEFix.safetensors [e6bb9ea85b]");
     const positive = interaction.options.getString("positiveprompt");
     let negative = interaction.options.getString("negativeprompt");
     let style = interaction.options.getString("style");
@@ -636,10 +915,12 @@ module.exports = {
             },
           });
           const optionJson = await option;
+          console.log(optionJson);
           return optionJson;
         }
       } catch (error) {
         console.log(error);
+        return error;
       }
     }
     async function imageGen(body) {
@@ -664,12 +945,13 @@ module.exports = {
     }
     const payload = declarePrompt(positive, negative, style);
     changeOpt(style).then((res) => {
-      if (!res) {
+      if (res instanceof Error) {
         const embed = new EmbedBuilder()
-          .setTitle("FAILED TO CHANGE MODEL")
+          .setTitle("Connection Refused: Is the server running?")
           .setColor("FF0000")
           .setDescription("ERROR")
           .setFooter({ text: "Provided by Stable Diffusion" });
+        return interaction.editReply({ embeds: [embed] });
       } else {
         console.log(res);
         imageGen(payload).then((response) => {
@@ -694,7 +976,7 @@ module.exports = {
   autocomplete: async ({ interaction, client, handler }) => {
     const value = interaction.options.getFocused().toLowerCase();
     try {
-      let keyArray = ["dnd", "anime"];
+      let keyArray = ["dnd", "anime", "logo"];
       const filtered = keyArray
         .filter((choice) => choice.toLowerCase().includes(value))
         .slice(0, 25);
@@ -703,8 +985,8 @@ module.exports = {
       await interaction.respond(
         filtered.map((choice) => ({ name: choice, value: choice })),
       );
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+      if (!interaction) {
+        throw new Error(`API error: ${interaction}`);
       }
     } catch (error) {
       console.log(error);
