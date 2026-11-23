@@ -18,7 +18,7 @@ const client = new Client({
 
 new CommandKit({
   client,
-  devGuildIds: ["1441492403545702503"],
+  devGuildIds: ["1572390489267904563"],
   devUserIds: ["233350384674930688"],
   eventsPath: `${__dirname}/events`,
   commandsPath: `${__dirname}/commands`,
